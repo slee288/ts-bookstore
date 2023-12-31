@@ -1,6 +1,7 @@
 import { useState, MouseEvent, useEffect } from 'react'
 import { css } from "@emotion/react";
 import ModalForm from "./components/ModalForm";
+import Card from "./components/Card";
 import { Book } from "./interfaces";
 import './App.css'
 
@@ -9,7 +10,7 @@ function App() {
   const [bookList, setBookList] = useState<Book[]>([
     { id: "13354", name: "Book 1", price: 13.3, category: "Fantasy" },
     { id: "13355", name: "Book 2", price: 15.3, category: "Drama" },
-    { id: "13356", name: "Book 3", price: 10.3, category: "Documentary" }
+    { id: "13356", name: "Book 3", price: 10.3, category: "Documentary" },
   ]);
   const [formFields, setFormFields] = useState<Book>({
     id: "", name: "", price: 0, category: "", description: ""
@@ -56,20 +57,36 @@ function App() {
   }
 
   return (
-    <>
-      {bookList.map(({id, name, price, category}: Book) => (
-        <div key={id} css={css`
-          display: flex;
-          column-gap: 10px;
-        `}>
-          <p>name: {name}</p>
-          <p>price: ${price}</p>
-          <p>category: {category}</p>
-          <button onClick={() => openEditBookForm(id)}>Edit</button>
-          <button onClick={() => deleteBook(id)}>Delete</button>
-        </div>
-      ))}
-      <button onClick={() => openAddBookForm()}>Add a Book</button>
+    <div css={css`
+      width: 100%;
+      padding: 100px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    `}>
+      <button onClick={() => openAddBookForm()} css={css`
+        width: 100%;
+        max-width: 500px;
+        border: 3px dashed #333;
+        margin-bottom: 48px;
+        font-size: 20px;
+        color: #333;
+        &:hover {
+          border: 3px dashed #aaa;
+          color: #888;
+        }
+      `}>Add a Book</button>
+      <div css={css`
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        column-gap: 20px;
+        row-gap: 20px;
+      `}>
+        {bookList.map((book: Book) => (
+          <Card book={book} editAction={openEditBookForm} deleteAction={deleteBook} />
+        ))}
+      </div>
       <ModalForm 
         opened={modalOpened}
         setOpened={setModalOpened}
@@ -77,7 +94,7 @@ function App() {
         setFormFields={setFormFields}
         submitAction={formState === "add" ? addBook : editBook}
       />
-    </>
+    </div>
   )
 }
 

@@ -149,8 +149,13 @@ const ModalForm = ({
               `} />
             </div>
             <button disabled={!formIsValid} onClick={submitAction} css={css`
+                border: 1px solid #333;
                 &[disabled] {
                     pointer-events: none;
+                };
+                &:hover {
+                    border: 1px solid #999;
+                    color: #999;
                 }
             `}>Submit</button>
           </form>
