@@ -15,7 +15,7 @@ const Card = ({
     deleteAction
 }: CardProps) => {
     return (
-        <CardWrapper onClick={() => editAction ? editAction(book.id) : () => {}} key={book.id}>
+        <CardWrapper onClick={() => editAction ? editAction(book.id) : () => {}}>
             <div css={css`padding-bottom: 32px;`}>
                 <p css={css`font-size: 20px; font-weight: bold;`}>{book.name}</p>
                 <p css={css`font-size: 16px; padding-bottom: 8px; color: #666`}>${book.price}</p>

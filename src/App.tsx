@@ -1,18 +1,17 @@
 import { useState, MouseEvent, useEffect } from 'react'
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import ModalForm from "./components/ModalForm";
 import Card from "./components/Card";
 import { Book } from "./interfaces";
+import type { RootState } from "./app/store";
+import { useSelector, useDispatch } from "react-redux";
+import { add, remove, edit } from "./features/book/bookSlice";
 import './App.css'
 
 
 function App() {
-  const [bookList, setBookList] = useState<Book[]>([
-    { id: "13354", name: "Book 1", price: 13.3, category: "Fantasy" },
-    { id: "13355", name: "Book 2", price: 15.3, category: "Drama" },
-    { id: "13356", name: "Book 3", price: 10.3, category: "Documentary" },
-  ]);
+  const bookList = useSelector((state: RootState) => state.book.bookList);
+  const dispatch = useDispatch();
   const [formFields, setFormFields] = useState<Book>({
     id: "", name: "", price: 0, category: "", description: ""
   });
@@ -21,12 +20,12 @@ function App() {
 
   // DEBUG MESSAGING
   useEffect(() => {
-    console.log(formFields, formFields.description);
-  }, [formFields])
+    console.log(bookList);
+  }, [bookList])
 
   function deleteBook(event: MouseEvent, bookId: string) {
     event.stopPropagation();
-    setBookList(bookList.filter(({ id }: Book) => id !== bookId));
+    dispatch(remove(bookId))
   } 
 
   function openAddBookForm() {
@@ -44,18 +43,13 @@ function App() {
 
   function addBook(event: MouseEvent) {
     event.preventDefault();
-    setBookList([
-      ...bookList,
-      { ...formFields, id: Date.now().toString() }
-    ]);
+    dispatch(add({ ...formFields, id: Date.now().toString() }));
     setModalOpened(false);
   }
 
   function editBook(event: MouseEvent) {
     event.preventDefault();
-    const bookIndex = bookList.findIndex(({ id }: Book) => id === formFields.id);
-    bookList[bookIndex] = formFields;
-    setBookList([...bookList]);
+    dispatch(edit({ ...formFields }));
     setModalOpened(false);
   }
 
@@ -64,7 +58,7 @@ function App() {
       <AddButton onClick={() => openAddBookForm()}>Add a Book</AddButton>
       <ItemList>
         {bookList.map((book: Book) => (
-          <Card book={book} editAction={openEditBookForm} deleteAction={deleteBook} />
+          <Card key={book.id} book={book} editAction={openEditBookForm} deleteAction={deleteBook} />
         ))}
       </ItemList>
       <ModalForm 
