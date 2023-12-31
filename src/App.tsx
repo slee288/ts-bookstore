@@ -18,11 +18,13 @@ function App() {
   const [modalOpened, setModalOpened] = useState<boolean>(false);
   const [formState, setFormState] = useState<string>("add");
 
+  // DEBUG MESSAGING
   useEffect(() => {
-    console.log(bookList);
-  }, [bookList])
+    console.log(formFields, formFields.description);
+  }, [formFields])
 
-  function deleteBook(bookId: string) {
+  function deleteBook(event: MouseEvent, bookId: string) {
+    event.stopPropagation();
     setBookList(bookList.filter(({ id }: Book) => id !== bookId));
   } 
 
@@ -90,6 +92,7 @@ function App() {
       <ModalForm 
         opened={modalOpened}
         setOpened={setModalOpened}
+        formState={formState}
         formFields={formFields}
         setFormFields={setFormFields}
         submitAction={formState === "add" ? addBook : editBook}
