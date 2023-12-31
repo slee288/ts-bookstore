@@ -1,6 +1,6 @@
 import { MouseEvent } from "react";
 import { css } from "@emotion/react";
-import { Book } from "../interfaces";
+import { Book } from "../features/book/bookSlice";
 import styled from "@emotion/styled";
 
 interface CardProps {

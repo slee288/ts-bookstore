@@ -1,7 +1,7 @@
 import React, { useState, useEffect, SetStateAction, Dispatch, ChangeEvent } from 'react';
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { Book } from "../interfaces";
+import { Book } from "../features/book/bookSlice";
 
 interface ModalProps {
     opened: boolean;

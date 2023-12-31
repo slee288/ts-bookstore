@@ -2,7 +2,7 @@ import { useState, MouseEvent, useEffect } from 'react'
 import styled from "@emotion/styled";
 import ModalForm from "./components/ModalForm";
 import Card from "./components/Card";
-import { Book } from "./interfaces";
+import { Book } from "./features/book/bookSlice";
 import type { RootState } from "./app/store";
 import { useSelector, useDispatch } from "react-redux";
 import { add, remove, edit } from "./features/book/bookSlice";
