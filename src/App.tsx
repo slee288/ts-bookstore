@@ -1,5 +1,6 @@
 import { useState, MouseEvent, useEffect } from 'react'
 import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import ModalForm from "./components/ModalForm";
 import Card from "./components/Card";
 import { Book } from "./interfaces";
@@ -59,36 +60,13 @@ function App() {
   }
 
   return (
-    <div css={css`
-      width: 100%;
-      padding: 100px 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    `}>
-      <button onClick={() => openAddBookForm()} css={css`
-        width: 100%;
-        max-width: 500px;
-        border: 3px dashed #333;
-        margin-bottom: 48px;
-        font-size: 20px;
-        color: #333;
-        &:hover {
-          border: 3px dashed #aaa;
-          color: #888;
-        }
-      `}>Add a Book</button>
-      <div css={css`
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        column-gap: 20px;
-        row-gap: 20px;
-      `}>
+    <MainPage>
+      <AddButton onClick={() => openAddBookForm()}>Add a Book</AddButton>
+      <ItemList>
         {bookList.map((book: Book) => (
           <Card book={book} editAction={openEditBookForm} deleteAction={deleteBook} />
         ))}
-      </div>
+      </ItemList>
       <ModalForm 
         opened={modalOpened}
         setOpened={setModalOpened}
@@ -97,8 +75,35 @@ function App() {
         setFormFields={setFormFields}
         submitAction={formState === "add" ? addBook : editBook}
       />
-    </div>
+    </MainPage>
   )
 }
+
+const MainPage = styled.div`
+  width: 100%;
+  padding: 100px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const AddButton = styled.button`
+  width: 100%;
+  max-width: 500px;
+  border: 3px dashed #333;
+  margin-bottom: 48px;
+  font-size: 20px;
+  color: #333;
+  &:hover {
+    border: 3px dashed #aaa;
+    color: #888;
+  }
+`;
+const ItemList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 20px;
+  row-gap: 20px;
+`;
 
 export default App
